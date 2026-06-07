@@ -1,0 +1,130 @@
+{
+  "name": "yt-downloader",
+  "version": "1.0.0",
+  "description": "Universal media downloader — YouTube, Instagram, TikTok, Twitter, Facebook, SoundCloud и 1000+ сайтов",
+  "author": {
+    "name": "YT Downloader",
+    "email": "dev@yt-downloader.app"
+  },
+  "license": "MIT",
+  "private": true,
+  "main": "dist-electron/main.js",
+
+  "scripts": {
+    "dev":          "concurrently \"vite\" \"wait-on http://localhost:5173 && electron .\"",
+    "build":        "vite build && electron-builder build",
+    "preview":      "vite preview",
+    "build:win":    "vite build && electron-builder build --win",
+    "build:mac":    "vite build && electron-builder build --mac",
+    "build:linux":  "vite build && electron-builder build --linux",
+    "lint":         "eslint src electron --ext .js,.jsx --report-unused-disable-directives"
+  },
+
+  "dependencies": {
+    "react":                "^19.2.7",
+    "react-dom":            "^19.2.7",
+    "react-router-dom":     "^7.1.5",
+    "zustand":              "^5.0.14",
+    "i18next":              "^26.3.0",
+    "react-i18next":        "^17.0.8",
+    "lucide-react":         "^0.511.0",
+    "axios":                "^1.17.0",
+    "pretty-bytes":         "^6.1.1",
+    "framer-motion":        "^12.16.0",
+    "date-fns":             "^4.1.0",
+
+    "electron-store":       "^11.0.2",
+    "better-sqlite3":       "^12.10.0",
+
+    "bcryptjs":             "^3.0.3",
+    "uuid":                 "^14.0.0",
+
+    "sharp":                "^0.34.5",
+
+    "electron-updater":     "^6.8.3"
+  },
+
+  "devDependencies": {
+    "electron":                  "^42.3.2",
+    "electron-builder":          "^26.8.1",
+    "vite":                      "^8.0.16",
+    "@vitejs/plugin-react":      "^6.0.2",
+    "tailwindcss":               "^4.3.0",
+    "@tailwindcss/vite":         "^4.3.0",
+    "postcss":                   "^8.5.6",
+    "autoprefixer":              "^10.4.21",
+    "concurrently":              "^9.1.2",
+    "wait-on":                   "^8.0.3",
+    "eslint":                    "^9.30.1",
+    "eslint-plugin-react":       "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0"
+  },
+
+  "build": {
+    "appId": "app.yt-downloader",
+    "productName": "YT Downloader",
+
+    "directories": {
+      "output": "release",
+      "buildResources": "assets"
+    },
+
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "binaries/**/*",
+      "node_modules/**/*",
+      "!node_modules/**/{CHANGELOG.md,README.md,readme.md,changelog.md}",
+      "!node_modules/**/{test,__tests__,tests,powered-test,example,examples}",
+      "!node_modules/.bin"
+    ],
+
+    "extraResources": [
+      {
+        "from": "binaries/",
+        "to": "binaries/",
+        "filter": ["**/*"]
+      }
+    ],
+
+    "win": {
+      "target": [
+        { "target": "nsis",     "arch": ["x64", "ia32"] },
+        { "target": "portable", "arch": ["x64"] }
+      ],
+      "icon": "assets/icons/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "YT Downloader"
+    },
+
+    "mac": {
+      "target": [
+        { "target": "dmg", "arch": ["x64", "arm64"] },
+        { "target": "zip", "arch": ["x64", "arm64"] }
+      ],
+      "icon": "assets/icons/icon.icns",
+      "category": "public.app-category.utilities",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false
+    },
+
+    "linux": {
+      "target": [
+        { "target": "AppImage", "arch": ["x64"] },
+        { "target": "deb",      "arch": ["x64"] },
+        { "target": "rpm",      "arch": ["x64"] }
+      ],
+      "icon": "assets/icons/",
+      "category": "Network"
+    },
+
+    "npmRebuild": true
+  },
+
+  "electronVersion": "42.3.2"
+}

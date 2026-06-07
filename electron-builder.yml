@@ -1,0 +1,104 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# electron-builder.yml
+#
+# Подробная конфигурация для сборки инсталляторов.
+# Можно использовать вместо build секции в package.json.
+# ─────────────────────────────────────────────────────────────────────────────
+
+appId: app.yt-downloader
+productName: YT Downloader
+publish: null
+
+directories:
+  output: release
+  buildResources: assets
+
+files:
+  - dist/**/*
+  - dist-electron/**/*
+  - binaries/**/*
+  - node_modules/**/*
+  - '!node_modules/**/{CHANGELOG.md,README.md,readme.md,changelog.md}'
+  - '!node_modules/**/{test,__tests__,tests,powered-test,example,examples}'
+  - '!node_modules/.bin'
+
+extraResources:
+  - from: binaries/
+    to: binaries/
+
+# ─── Windows ──────────────────────────────────────────────────────────────────
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+        - ia32
+    - target: portable
+      arch:
+        - x64
+  icon: assets/icons/icon.ico
+  certificateFile: null
+  certificatePassword: null
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: YT Downloader
+
+# ─── macOS ────────────────────────────────────────────────────────────────────
+mac:
+  target:
+    - dmg
+    - zip
+  arch:
+    - x64
+    - arm64
+  icon: assets/icons/icon.icns
+  category: public.app-category.utilities
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: null
+  entitlementsInherit: null
+
+dmg:
+  sign: false
+  contents:
+    - x: 110
+      y: 150
+      type: file
+    - x: 240
+      y: 150
+      type: link
+      path: /Applications
+
+# ─── Linux ───────────────────────────────────────────────────────────────────
+linux:
+  target:
+    - AppImage
+    - deb
+    - rpm
+  arch:
+    - x64
+  icon: assets/icons/
+  category: Network
+  desktop:
+    Name: YT Downloader
+    Comment: Universal media downloader
+    Categories: Network
+    Keywords: youtube;download;video;audio
+
+deb:
+  depends:
+    - libx11-6
+    - libxss1
+
+rpm:
+  depends:
+    - libx11
+    - libxss
+
+# ─── AppImage ──────────────────────────────────────────────────────────────────
+appImage:
+  artifactName: ${productName}-${version}-${arch}.${ext}
