@@ -17,10 +17,12 @@ jobs:
           node-version: '22'
       
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
+        run: npm install --legacy-peer-deps --ignore-scripts
       
       - name: Build Windows app
         run: npm run build:win
+        env:
+          npm_config_build_from_source: false
       
       - name: Upload release
         uses: actions/upload-artifact@v4
